@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wednesday Mahj Group</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Mahjong RSVP</title>
     <style>
         :root {
             --primary: #2c6e49;
@@ -15,37 +15,23 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f5;
             color: #333;
             margin: 0;
-            padding: 15px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            -webkit-font-smoothing: antialiased;
         }
 
         .container {
             max-width: 500px;
             width: 100%;
             background: white;
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-            box-sizing: border-box;
-        }
-
-        .header-box {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-
-        /* Using the beautiful Bird Bam tile image verbatim */
-        .tile-logo {
-            width: 90px;
-            height: auto;
-            margin-bottom: 8px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
 
         h1, h2 {
@@ -54,267 +40,134 @@
             margin-top: 0;
         }
 
-        h1 { font-size: 24px; margin-bottom: 5px; }
-        h2 { font-size: 18px; margin-bottom: 12px; }
-
-        .section {
-            background: #fafafa;
-            border: 1px solid #eef2f0;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-        }
-
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-weight: 600;
-            font-size: 13px;
-            color: #444;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
-        select, input, textarea {
+        select {
             width: 100%;
             padding: 12px;
             border: 2px solid #ddd;
             border-radius: 8px;
             font-size: 16px;
             background-color: white;
-            box-sizing: border-box;
-            font-family: inherit;
-        }
-
-        textarea {
-            resize: none;
-            height: 65px;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            border-color: var(--primary-light);
-            outline: none;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 15px;
-            margin-top: 5px;
-        }
-
-        .radio-label {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            text-transform: none;
-            font-weight: normal;
-            cursor: pointer;
-        }
-
-        .radio-label input {
-            width: auto;
-            margin-right: 6px;
-        }
-
-        .announcement-banner {
-            background-color: #fffde7;
-            border-left: 4px solid #fdd835;
-            padding: 12px;
-            border-radius: 0 8px 8px 0;
-            margin-bottom: 15px;
-            font-size: 14px;
-            line-height: 1.4;
-            display: none;
         }
 
         .btn-group {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         button {
-            padding: 14px 5px;
+            padding: 12px 5px;
             border: none;
             border-radius: 8px;
             color: white;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             transition: transform 0.1s, opacity 0.2s;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        button:active { transform: scale(0.97); }
+        button:active { transform: scale(0.98); }
         button.coming { background-color: var(--coming); }
         button.not { background-color: var(--not-coming); }
         button.tbd { background-color: var(--tbd); }
+        button:hover { opacity: 0.9; }
 
-        .btn-secondary {
-            background-color: var(--primary);
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-            margin-top: 8px;
+        .dashboard {
+            margin-top: 30px;
+            border-top: 2px solid #eee;
+            padding-top: 20px;
         }
 
         .stats {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             background: var(--accent);
-            padding: 12px;
+            padding: 15px;
             border-radius: 8px;
             border: 1px solid #e6e6bd;
         }
 
-        .stat-box { text-align: center; font-weight: bold; font-size: 14px; }
+        .stat-box { text-align: center; font-weight: bold; }
         .stat-count { font-size: 24px; display: block; }
 
         .player-list {
             list-style: none;
             padding: 0;
-            margin: 0;
-            max-height: 280px;
+            max-height: 300px;
             overflow-y: auto;
         }
 
         .player-item {
             display: flex;
-            flex-direction: column;
-            padding: 10px 5px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .player-row {
-            display: flex;
             justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
             align-items: center;
-            font-size: 15px;
-        }
-
-        .player-note {
-            font-size: 12px;
-            color: #666;
-            margin-top: 4px;
-            padding-left: 2px;
-            font-style: italic;
         }
 
         .status-badge {
-            padding: 5px 10px;
-            border-radius: 6px;
+            padding: 4px 8px;
+            border-radius: 4px;
             color: white;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: bold;
             text-transform: uppercase;
-        }
-
-        .save-notice {
-            font-size: 11px;
-            color: #777;
-            font-style: italic;
-            margin-top: 4px;
-            display: block;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- BRANDING SECTION -->
-    <div class="header-box">
-        <img src="image_ce9584.png" alt="Bird Bam Logo" class="tile-logo">
-        <h1>Wednesday Mahj Group</h1>
-    </div>
+    <h1>🀄 Mahj Weekly RSVP</h1>
     
-    <!-- DATE SELECTOR -->
     <div class="form-group">
-        <label for="date-select">Select Game Date:</label>
-        <select id="date-select"></select>
+        <label for="player-select">Select Your Name:</label>
+        <select id="player-select">
+            <option value="">-- Choose Name --</option>
+            <option value="Alice">Alice</option>
+            <option value="Barbara">Barbara</option>
+            <option value="Carol">Carol</option>
+            <option value="Diane">Diane</option>
+            <option value="Eleanor">Eleanor</option>
+        </select>
     </div>
 
-    <!-- LIVE HOST ANNOUNCEMENT VIEW -->
-    <div id="host-announcement-box" class="announcement-banner">
-        <strong>📌 Note from Host:</strong> <span id="announcement-text"></span>
+    <label>Your Status for this Week:</label>
+    <div class="btn-group">
+        <button class="coming" onclick="submitRSVP('Coming')">In</button>
+        <button class="not" onclick="submitRSVP('Out')">Out</button>
+        <button class="tbd" onclick="submitRSVP('TBD')">TBD</button>
     </div>
 
-    <!-- RSVP FORM -->
-    <div class="section">
-        <div class="form-group">
-            <label for="player-select">Your Name:</label>
-            <select id="player-select">
-                <option value="">-- Choose Name --</option>
-                <!-- Alphabetical Roster by First Name -->
-                <option value="Arlene McHale">Arlene McHale</option>
-                <option value="Barb Gressa">Barb Gressa</option>
-                <option value="Cindy Cumings">Cindy Cumings</option>
-                <option value="Debbie Dunn">Debbie Dunn</option>
-                <option value="Debbie Newell">Debbie Newell</option>
-                <option value="Deborah Cohen">Deborah Cohen</option>
-                <option value="Julie Rothschild">Julie Rothschild</option>
-                <option value="Kim Harman">Kim Harman</option>
-                <option value="Wendy Jones">Wendy Jones</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="player-note">Add a Note (Optional):</label>
-            <input type="text" id="player-note" placeholder="Bringing treats, arriving late, etc.">
-            <div class="radio-group">
-                <label class="radio-label"><input type="radio" name="note-privacy" value="public" checked> Public to all</label>
-                <label class="radio-label"><input type="radio" name="note-privacy" value="private"> Private to Host only</label>
-            </div>
-        </div>
-        <label>Your Status:</label>
-        <div class="btn-group">
-            <button class="coming" onclick="submitRSVP('Coming')">In</button>
-            <button class="not" onclick="submitRSVP('Out')">Out</button>
-            <button class="tbd" onclick="submitRSVP('TBD')">TBD</button>
-        </div>
-    </div>
-
-    <!-- HOST EDIT DETAILS PANEL (OPEN TO ALL) -->
-    <div class="section" style="border-top: 3px solid var(--primary-light);">
-        <h2>Host Dashboard Control</h2>
-        <div class="form-group">
-            <label for="host-name">Host Name:</label>
-            <input type="text" id="host-name" placeholder="Who is hosting?" onchange="saveHostInfo()">
-        </div>
-        <div class="form-group">
-            <label for="host-address">Host's Address:</label>
-            <input type="text" id="host-address" placeholder="123 Mahjong Lane" onchange="saveHostInfo()">
-        </div>
-        <div class="form-group">
-            <label for="host-note">Host Note / Special Reminder:</label>
-            <textarea id="host-note" placeholder="Food plans, pool details, table configurations..." onchange="saveHostInfo()"></textarea>
-            <span class="save-notice">✨ Saves instantly when you click out of the box.</span>
-        </div>
-        <button class="btn-secondary" onclick="copyGroupReminder()">📋 Copy Group Text Reminder</button>
-    </div>
-
-    <!-- HEADCOUNT DISPLAY -->
-    <div>
-        <h2>Who's Playing This Week</h2>
+    <div class="dashboard">
+        <h2>Headcount Dashboard</h2>
         <div class="stats">
             <div class="stat-box" style="color: var(--coming);">In<span class="stat-count" id="count-in">0</span></div>
             <div class="stat-box" style="color: var(--not-coming);">Out<span class="stat-count" id="count-out">0</span></div>
             <div class="stat-box" style="color: var(--tbd);">TBD<span class="stat-count" id="count-tbd">0</span></div>
         </div>
-        <ul class="player-list" id="attendance-list"></ul>
+        <ul class="player-list" id="attendance-list">
+            </ul>
     </div>
 </div>
 
-<!-- Firebase SDKs -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getDatabase, ref, set, onValue, off } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-    // ⚠️ PASTE YOUR FIREBASE CREDENTIALS HERE
+    // ⚠️ REPLACE THIS WITH YOUR OWN FIREBASE CONFIGURATION
     const firebaseConfig = {
         apiKey: "YOUR_API_KEY",
         authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
@@ -325,147 +178,62 @@
         appId: "YOUR_APP_ID"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    const gameDates = [
-        "Wed, July 1 @ 1:00 PM", "Wed, July 8 @ 1:00 PM", "Wed, July 15 @ 1:00 PM", "Wed, July 22 @ 1:00 PM", "Wed, July 29 @ 1:00 PM",
-        "Wed, Aug 5 @ 1:00 PM", "Wed, Aug 12 @ 1:00 PM", "Wed, Aug 19 @ 1:00 PM", "Wed, Aug 26 @ 1:00 PM",
-        "Wed, Sept 2 @ 1:00 PM", "Wed, Sept 9 @ 1:00 PM", "Wed, Sept 16 @ 1:00 PM", "Wed, Sept 23 @ 1:00 PM", "Wed, Sept 30 @ 1:00 PM",
-        "Wed, Oct 7 @ 1:00 PM", "Wed, Oct 14 @ 1:00 PM", "Wed, Oct 21 @ 1:00 PM", "Wed, Oct 28 @ 1:00 PM"
-    ];
-
-    let currentListenerRef = null;
-    let activeHostName = ""; 
-
-    const dateDropdown = document.getElementById('date-select');
-    gameDates.forEach(date => {
-        let opt = document.createElement('option');
-        opt.value = date.replace(/[^a-zA-Z0-9]/g, '_'); 
-        opt.innerText = date;
-        dateDropdown.appendChild(opt);
-    });
-
-    dateDropdown.addEventListener('change', loadWeekData);
-    loadWeekData();
-
-    function loadWeekData() {
-        const selectedWeek = dateDropdown.value;
-        if (currentListenerRef) off(currentListenerRef);
-
-        currentListenerRef = ref(db, 'weeks/' + selectedWeek);
-
-        onValue(currentListenerRef, (snapshot) => {
-            const data = snapshot.val() || {};
-            
-            activeHostName = data.hostName || '';
-            document.getElementById('host-name').value = activeHostName;
-            document.getElementById('host-address').value = data.hostAddress || '';
-            document.getElementById('host-note').value = data.hostNote || '';
-
-            const banner = document.getElementById('host-announcement-box');
-            const txt = document.getElementById('announcement-text');
-            if(data.hostNote && data.hostNote.trim() !== "") {
-                txt.innerText = data.hostNote;
-                banner.style.display = "block";
-            } else {
-                banner.style.display = "none";
-            }
-
-            const rsvps = data.attendance || {};
-            updateDashboard(rsvps);
-        });
-    }
-
-    window.saveHostInfo = function() {
-        const selectedWeek = dateDropdown.value;
-        set(ref(db, `weeks/${selectedWeek}/hostName`), document.getElementById('host-name').value);
-        set(ref(db, `weeks/${selectedWeek}/hostAddress`), document.getElementById('host-address').value);
-        set(ref(db, `weeks/${selectedWeek}/hostNote`), document.getElementById('host-note').value);
-    }
-
+    // Make function available to the buttons globally
     window.submitRSVP = function(status) {
-        const selectedWeek = dateDropdown.value;
         const name = document.getElementById('player-select').value;
-        const noteText = document.getElementById('player-note').value;
-        const notePrivacy = document.querySelector('input[name="note-privacy"]:checked').value;
-        const printableDate = dateDropdown.options[dateDropdown.selectedIndex].text;
-        
         if (!name) {
-            alert('Please pick your name first!');
+            alert('Please select your name first!');
             return;
         }
         
-        set(ref(db, `weeks/${selectedWeek}/attendance/${name}`), { 
+        // Save to Firebase
+        set(ref(db, 'attendance/' + name), {
             status: status,
-            note: noteText,
-            privacy: notePrivacy
+            timestamp: Date.now()
         }).then(() => {
-            alert(`Got it! Marked "${status}" for ${printableDate}.`);
-            document.getElementById('player-note').value = ""; 
+            alert(`Thanks ${name}! Status saved as: ${status}`);
+        }).catch((error) => {
+            alert('Error updating status: ' + error.message);
         });
     }
 
-    window.copyGroupReminder = function() {
-        const printableDate = dateDropdown.options[dateDropdown.selectedIndex].text;
-        const host = document.getElementById('host-name').value || "TBD";
-        const addr = document.getElementById('host-address').value || "TBD";
-        const note = document.getElementById('host-note').value || "";
-        const appUrl = window.location.href;
+    // Listen for real-time updates from Firebase
+    const attendanceRef = ref(db, 'attendance');
+    onValue(attendanceRef, (snapshot) => {
+        const data = snapshot.val() || {};
+        updateDashboard(data);
+    });
 
-        let message = `🦚  Wednesday Mahj Group  🦚\n\n`;
-        message += `📆  ${printableDate}\n\n`;
-        message += `👩  Host: ${host}\n\n`;
-        message += `📍  Location: ${addr}\n\n`;
-        
-        if(note) {
-            message += `💬  Note from Host: "${note}"\n\n`;
-        }
-        
-        message += `👉  Tap link to update your RSVP status:\n${appUrl}`;
-
-        navigator.clipboard.writeText(message).then(() => {
-            alert("Spacious reminder template successfully copied! Paste directly into your group thread.");
-        }).catch(() => {
-            alert("Unable to copy automatically. Please select text manually.");
-        });
-    }
-
-    function updateDashboard(rsvps) {
+    function updateDashboard(data) {
         const listContainer = document.getElementById('attendance-list');
-        listContainer.innerHTML = ''; 
-        let counts = { 'Coming': 0, 'Out': 0, 'TBD': 0 };
-        const currentUser = document.getElementById('player-select').value;
+        listContainer.innerHTML = ''; // Clear list
 
-        Object.keys(rsvps).sort().forEach(player => {
-            const status = rsvps[player].status;
-            const noteText = rsvps[player].note || "";
-            const privacy = rsvps[player].privacy || "public";
+        let counts = { 'Coming': 0, 'Out': 0, 'TBD': 0 };
+
+        // Loop through data and build UI
+        Object.keys(data).sort().forEach(player => {
+            const status = data[player].status;
             counts[status]++;
 
             const li = document.createElement('li');
             li.className = 'player-item';
-            let badgeColor = status === 'Coming' ? 'var(--coming)' : (status === 'Out' ? 'var(--not-coming)' : 'var(--tbd)');
-
-            let noteHTML = "";
-            if (noteText.trim() !== "") {
-                if (privacy === "public") {
-                    noteHTML = `<div class="player-note">💬 ${noteText}</div>`;
-                } else if (privacy === "private" && (currentUser === player || currentUser === activeHostName)) {
-                    noteHTML = `<div class="player-note" style="color: #b23b3b;">🔒 [To Host Only]: ${noteText}</div>`;
-                }
-            }
+            
+            let badgeColor = 'var(--tbd)';
+            if(status === 'Coming') badgeColor = 'var(--coming)';
+            if(status === 'Out') badgeColor = 'var(--not-coming)';
 
             li.innerHTML = `
-                <div class="player-row">
-                    <span>${player}</span>
-                    <span class="status-badge" style="background-color: ${badgeColor}">${status}</span>
-                </div>
-                ${noteHTML}
+                <span>${player}</span>
+                <span class="status-badge" style="background-color: ${badgeColor}">${status}</span>
             `;
             listContainer.appendChild(li);
         });
 
+        // Update total counter numbers
         document.getElementById('count-in').innerText = counts['Coming'];
         document.getElementById('count-out').innerText = counts['Out'];
         document.getElementById('count-tbd').innerText = counts['TBD'];
