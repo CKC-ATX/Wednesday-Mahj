@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Wednesday Mahj Planner</title>
+    <style>
+        :root {
+            --primary: #2c6e49;
+            --primary-light: #4c956c;
+            --accent: #fefee3;
+            --coming: #4caf50;
+            --not-coming: #f44336;
+            --tbd: #ff9800;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f5;
+            color: #333;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            box-sizing: border-box;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: var(--primary);
+            margin-top: 0;
+        }
+
+        h1 { font-size: 24px; margin-bottom: 15px; }
+        h2 { font-size: 18px; margin-bottom: 10px; }
+
+        .section {
+            background: #fafafa;
+            border: 1px solid #eef2f0;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            font-size: 13px;
+            color: #444;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px; /* Prevents iOS auto-zoom on focus */
+            background-color: white;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+
+        textarea {
+            resize: none;
+            height: 70px;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary-light);
+            outline: none;
+        }
+
+        /* Live Announcement Banner */
+        .announcement-banner {
+            background-color: #fffde7;
+            border-left: 4px solid #fdd835;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+            display: none; /* Hidden unless a note exists */
+        }
+
+        .btn-group {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 14px 5px;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: transform 0.1s, opacity 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        button:active { transform: scale(0.97); }
+        button.coming { background-color: var(--coming); }
+        button.not { background-color: var(--not-coming); }
+        button.tbd { background-color: var(--tbd); }
+
+        .btn-secondary {
+            background-color: var(--primary);
+            width: 100%;
+            padding: 10px;
+            font-size: 13px;
+            margin-top: 10px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+            background: var(--accent);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e6e6bd;
+        }
+
+        .stat-box { text-align: center; font-weight: bold; font-size: 14px; }
+        .stat-count { font-size: 24px; display: block; }
+
+        .player-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .player-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 5px;
+            border-bottom: 1px solid #eee;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 6px;
+            color: white;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .save-notice {
+            font-size: 11px;
+            color: #777;
+            font-style: italic;
+            margin-top: 4px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🀄 Wed Mahj Planner</h1>
+    
+    <!-- DATE SELECTOR -->
+    <div class="form-group">
+        <label for="date-select">Select Game Date:</label>
+        <select id="date-select"></select>
+    </div>
+
+    <!-- LIVE HOST ANNOUNCEMENT VIEW -->
+    <div id="host-announcement-box" class="announcement-banner">
+        <strong>📌 Note from Host:</strong> <span id="announcement-text"></span>
+    </div>
+
+    <!-- RSVP FORM -->
+    <div class="section">
+        <div class="form-group">
+            <label for="player-select">Your Name:</label>
+            <select id="player-select">
+                <option value="">-- Choose Name --</option>
+                <option value="Alice">Alice</option>
+                <option value="Barbara">Barbara</option>
+                <option value="Carol">Carol</option>
+                <option value="Diane">Diane</option>
+            </select>
+        </div>
+        <label>Your Status:</label>
+        <div class="btn-group">
+            <button class="coming" onclick="submitRSVP('Coming')">In</button>
+            <button class="not" onclick="submitRSVP('Out')">Out</button>
+            <button class="tbd" onclick="submitRSVP('TBD')">TBD</button>
+        </div>
+    </div>
+
+    <!-- HOST EDIT DETAILS PANEL -->
+    <div class="section" style="border-top: 3px solid var(--primary-light);">
+        <h2>Host Dashboard Control</h2>
+        <div class="form-group">
+            <label for="host-name">Host Name:</label>
+            <input type="text" id="host-name" placeholder="Who is hosting?" onchange="saveHostInfo()">
+        </div>
+        <div class="form-group">
+            <label for="host-address">Host's Address:</label>
+            <input type="text" id="host-address" placeholder="123 Mahjong Lane" onchange="saveHostInfo()">
+        </div>
+        <div class="form-group">
+            <label for="host-note">Host Note / Special Reminder:</label>
+            <textarea id="host-note" placeholder="Reminder text, food plans, table limits..." onchange="saveHostInfo()"></textarea>
+            <span class="save-notice">✨ Saves instantly when you tap away from the box.</span>
+        </div>
+        <button class="btn-secondary" onclick="copyGroupReminder()">📋 Copy Group Text Reminder</button>
+    </div>
+
+    <!-- HEADCOUNT DISPLAY -->
+    <div>
+        <h2>Who's Playing This Week</h2>
+        <div class="stats">
+            <div class="stat-box" style="color: var(--coming);">In<span class="stat-count" id="count-in">0</span></div>
+            <div class="stat-box" style="color: var(--not-coming);">Out<span class="stat-count" id="count-out">0</span></div>
+            <div class="stat-box" style="color: var(--tbd);">TBD<span class="stat-count" id="count-tbd">0</span></div>
+        </div>
+        <ul class="player-list" id="attendance-list"></ul>
+    </div>
+</div>
+
+<!-- Firebase SDKs -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue, off } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // ⚠️ PASTE YOUR FIREBASE CREDENTIALS HERE
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT_ID.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    const gameDates = [
+        "Wed, July 1 @ 1:00 PM", "Wed, July 8 @ 1:00 PM", "Wed, July 15 @ 1:00 PM", "Wed, July 22 @ 1:00 PM", "Wed, July 29 @ 1:00 PM",
+        "Wed, Aug 5 @ 1:00 PM", "Wed, Aug 12 @ 1:00 PM", "Wed, Aug 19 @ 1:00 PM", "Wed, Aug 26 @ 1:00 PM",
+        "Wed, Sept 2 @ 1:00 PM", "Wed, Sept 9 @ 1:00 PM", "Wed, Sept 16 @ 1:00 PM", "Wed, Sept 23 @ 1:00 PM", "Wed, Sept 30 @ 1:00 PM",
+        "Wed, Oct 7 @ 1:00 PM", "Wed, Oct 14 @ 1:00 PM", "Wed, Oct 21 @ 1:00 PM", "Wed, Oct 28 @ 1:00 PM"
+    ];
+
+    let currentListenerRef = null;
+
+    const dateDropdown = document.getElementById('date-select');
+    gameDates.forEach(date => {
+        let opt = document.createElement('option');
+        opt.value = date.replace(/[^a-zA-Z0-9]/g, '_'); 
+        opt.innerText = date;
+        dateDropdown.appendChild(opt);
+    });
+
+    dateDropdown.addEventListener('change', loadWeekData);
+    loadWeekData();
+
+    function loadWeekData() {
+        const selectedWeek = dateDropdown.value;
+        if (currentListenerRef) off(currentListenerRef);
+
+        currentListenerRef = ref(db, 'weeks/' + selectedWeek);
+
+        onValue(currentListenerRef, (snapshot) => {
+            const data = snapshot.val() || {};
+            
+            document.getElementById('host-name').value = data.hostName || '';
+            document.getElementById('host-address').value = data.hostAddress || '';
+            document.getElementById('host-note').value = data.hostNote || '';
+
+            // Handle displaying live announcement banner
+            const banner = document.getElementById('host-announcement-box');
+            const txt = document.getElementById('announcement-text');
+            if(data.hostNote && data.hostNote.trim() !== "") {
+                txt.innerText = data.hostNote;
+                banner.style.display = "block";
+            } else {
+                banner.style.display = "none";
+            }
+
+            const rsvps = data.attendance || {};
+            updateDashboard(rsvps);
+        });
+    }
+
+    window.saveHostInfo = function() {
+        const selectedWeek = dateDropdown.value;
+        set(ref(db, `weeks/${selectedWeek}/hostName`), document.getElementById('host-name').value);
+        set(ref(db, `weeks/${selectedWeek}/hostAddress`), document.getElementById('host-address').value);
+        set(ref(db, `weeks/${selectedWeek}/hostNote`), document.getElementById('host-note').value);
+    }
+
+    window.submitRSVP = function(status) {
+        const selectedWeek = dateDropdown.value;
+        const name = document.getElementById('player-select').value;
+        const printableDate = dateDropdown.options[dateDropdown.selectedIndex].text;
+        
+        if (!name) {
+            alert('Please pick your name first!');
+            return;
+        }
+        
+        set(ref(db, `weeks/${selectedWeek}/attendance/${name}`), { status: status }).then(() => {
+            alert(`Got it! Marked "${status}" for ${printableDate}.`);
+        });
+    }
+
+    window.copyGroupReminder = function() {
+        const printableDate = dateDropdown.options[dateDropdown.selectedIndex].text;
+        const host = document.getElementById('host-name').value || "TBD";
+        const addr = document.getElementById('host-address').value || "TBD";
+        const note = document.getElementById('host-note').value || "";
+        const appUrl = window.location.href;
+
+        let message = `🀄 Mahjong RSVP Reminder!\n📆 ${printableDate}\n🏠 Host: ${host}\n📍 Location: ${addr}\n`;
+        if(note) message += `\n💬 Note from Host: "${note}"\n`;
+        message += `\n👉 Please click here to update your status: ${appUrl}`;
+
+        navigator.clipboard.writeText(message).then(() => {
+            alert("Group reminder copied to your clipboard! Ready to paste into Text, GroupMe, or Email.");
+        }).catch(() => {
+            alert("Unable to copy automatically. Please select text manually.");
+        });
+    }
+
+    function updateDashboard(rsvps) {
+        const listContainer = document.getElementById('attendance-list');
+        listContainer.innerHTML = ''; 
+        let counts = { 'Coming': 0, 'Out': 0, 'TBD': 0 };
+
+        Object.keys(rsvps).sort().forEach(player => {
+            const status = rsvps[player].status;
+            counts[status]++;
+
+            const li = document.createElement('li');
+            li.className = 'player-item';
+            let badgeColor = status === 'Coming' ? 'var(--coming)' : (status === 'Out' ? 'var(--not-coming)' : 'var(--tbd)');
+
+            li.innerHTML = `<span>${player}</span><span class="status-badge" style="background-color: ${badgeColor}">${status}</span>`;
+            listContainer.appendChild(li);
+        });
+
+        document.getElementById('count-in').innerText = counts['Coming'];
+        document.getElementById('count-out').innerText = counts['Out'];
+        document.getElementById('count-tbd').innerText = counts['TBD'];
+    }
+</script>
+</body>
+</html>
